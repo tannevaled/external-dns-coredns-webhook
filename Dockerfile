@@ -8,11 +8,12 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /code/external-dns-coredns-webhook/external-dns-coredns-webhook /usr/bin/external-dns-coredns-webhook
 
+USER 20000:20000
 # replace with your desire device count
-CMD ["external-dns-coredns-webhook"]
+ENTRYPOINT ["external-dns-coredns-webhook"]
 
 LABEL org.opencontainers.image.title="ExternalDNS CoreDNS webhook Docker Image" \
       org.opencontainers.image.description="external-dns-coredns-webhook" \
-      org.opencontainers.image.url="https://github.com/GDATASoftwareAG/external-dns-coredns-webhook" \
-      org.opencontainers.image.source="https://github.com/GDATASoftwareAG/external-dns-coredns-webhook" \
+      org.opencontainers.image.url="https://github.com/tannevaled/external-dns-coredns-webhook" \
+      org.opencontainers.image.source="https://github.com/tannevaled/external-dns-coredns-webhook" \
       org.opencontainers.image.license="MIT"
