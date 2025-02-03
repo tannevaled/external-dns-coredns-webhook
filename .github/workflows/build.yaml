@@ -46,6 +46,8 @@ jobs:
         with:
           push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            "GIT_REPOSITORY=https://github.com/${{ github.repository }}"
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
