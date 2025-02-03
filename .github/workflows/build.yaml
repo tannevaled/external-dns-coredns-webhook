@@ -49,6 +49,7 @@ jobs:
           build-args: |
             "GIT_REPOSITORY=https://github.com/${{ github.repository }}"
           platforms: linux/amd64,linux/arm64,linux/arm/v7
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=external-dns-coredns-webhook
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
