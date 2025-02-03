@@ -2,7 +2,9 @@ name: main
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "tannevaled-dev"
+      - "main"
   pull_request:
     branches: ["main"]
   release:
