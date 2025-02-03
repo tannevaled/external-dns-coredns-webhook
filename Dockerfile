@@ -1,21 +1,22 @@
 ARG GIT_REPOSITORY
 #ARG BUILDPLATFORM
-ARG TARGETPLATFORM
 
-FROM --platform=${ARG TARGETPLATFORM} golang:1.23-bookworm AS builder
+#FROM --platform=${ARG TARGETPLATFORM} golang:1.23-bookworm AS builder
+FROM golang:1.23-bookworm AS builder
 
 ARG GIT_REPOSITORY
 #ARG BUILDPLATFORM
-ARG TARGETPLATFORM
+#ARG TARGETPLATFORM
 
 COPY . /code/external-dns-coredns-webhook
 WORKDIR /code/external-dns-coredns-webhook
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETPLATFORM} go build
+RUN CGO_ENABLED=0 go build
 
-FROM --platform=${ARG TARGETPLATFORM} debian:bookworm-slim
+#FROM --platform=${ARG TARGETPLATFORM} debian:bookworm-slim
+FROM debian:bookworm-slim
 ARG GIT_REPOSITORY
 #ARG BUILDPLATFORM
-ARG TARGETPLATFORM
+#ARG TARGETPLATFORM
 COPY --from=builder /code/external-dns-coredns-webhook/external-dns-coredns-webhook /usr/bin/external-dns-coredns-webhook
 
 USER 20000:20000
