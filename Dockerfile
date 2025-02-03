@@ -1,5 +1,6 @@
 FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.23-bookworm AS builder
 
+ARG GIT_REPOSITORY
 ARG BUILDPLATFORM
 
 COPY . /code/external-dns-coredns-webhook
@@ -16,6 +17,6 @@ ENTRYPOINT ["external-dns-coredns-webhook"]
 
 LABEL org.opencontainers.image.title="ExternalDNS CoreDNS webhook Docker Image" \
       org.opencontainers.image.description="external-dns-coredns-webhook" \
-      org.opencontainers.image.url="https://github.com/tannevaled/external-dns-coredns-webhook" \
-      org.opencontainers.image.source="https://github.com/tannevaled/external-dns-coredns-webhook" \
+      org.opencontainers.image.url="${GIT_REPOSITORY}" \
+      org.opencontainers.image.source="${GIT_REPOSITORY}" \
       org.opencontainers.image.license="MIT"
