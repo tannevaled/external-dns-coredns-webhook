@@ -2,7 +2,9 @@ name: main
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "tannevaled-dev"
+      - "main"
   pull_request:
     branches: ["main"]
   release:
@@ -16,7 +18,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=ghcr.io/gdatasoftwareag/external-dns-coredns-webhook
+          DOCKER_IMAGE=ghcr.io/tannevaled/external-dns-coredns-webhook
           VERSION=edge
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
@@ -40,6 +42,8 @@ jobs:
         with:
           push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.prep.outputs.tags }}
+          multiPlatform: true
+          platform: linux/amd64,linux/arm64,linux/arm/v7
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
