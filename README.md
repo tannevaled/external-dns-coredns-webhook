@@ -1,5 +1,48 @@
 # ExternalDNS Plugin CoreDNS Webhook
 
+## Helm Deployment
+
+```bash
+$ cat <<EOF > custom-values.yaml
+provider:
+  name: "webhook"
+  webhook:
+    image: 
+      repository: "ghcr.io/GDATASoftwareAG/external-dns-coredns-webhook"
+      tag: "v0.6.0"
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    env:
+      - name: ETCD_URLS
+        value: "https://etcd.lab:2379"
+      - name: ETCD_USERNAME
+        value: "etcd_external_dns_user"
+      - name: ETCD_PASSWORD
+        value: "etcd_external_dns_password"
+      - name: ETCD_TLS_INSECURE
+        value: "true"
+    args:
+      - external-dns-coredns-webhook
+      - --log-level=debug
+      - --webhook-provider-read-timeout=5s
+      - --webhook-provider-write-timeout=5s
+      - --webhook-provider-port="0.0.0.0:8888"
+      - --prefix="/skydns/"
+      - --txt-owner-id="app"
+EOF
+```
+
+```bash
+$ curl -sfLk https://lima.local:8443/config/external-dns/custom-values.yaml \
+| helm upgrade --install external-dns external-dns/external-dns \
+         --wait \
+         --version="1.15.0" \
+         --create-namespace \
+         --namespace=external-dns \
+         --values - 
+```
+
 ## Commandline
 
 ```
