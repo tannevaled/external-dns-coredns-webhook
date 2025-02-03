@@ -1,10 +1,12 @@
-FROM golang:1.23-bookworm AS builder
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.23-bookworm AS builder
+
+ARG BUILDPLATFORM
 
 COPY . /code/external-dns-coredns-webhook
 WORKDIR /code/external-dns-coredns-webhook
 RUN CGO_ENABLED=0 go build
 
-FROM debian:bookworm-slim
+FROM --platform=${BUILDPLATFORM:-linux/amd64} debian:bookworm-slim
 
 COPY --from=builder /code/external-dns-coredns-webhook/external-dns-coredns-webhook /usr/bin/external-dns-coredns-webhook
 
