@@ -42,6 +42,8 @@ jobs:
         with:
           push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.prep.outputs.tags }}
+          multiPlatform: true
+          platform: linux/amd64,linux/arm64,linux/arm/v7
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
