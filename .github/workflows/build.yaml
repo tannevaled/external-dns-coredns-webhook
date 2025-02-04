@@ -16,7 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      fail-last: false
       matrix:
         platform:
           - linux/amd64
